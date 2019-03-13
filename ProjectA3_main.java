@@ -1,6 +1,5 @@
-package X_Project.A3.newname;
-
 import javax.swing.JOptionPane;
+
 
 public class ProjectA3_main
 {
@@ -9,6 +8,9 @@ public class ProjectA3_main
 	static int ws_counter=0;
 	
 	public static void main(String [] args) {
+
+
+
 		JOptionPane.showMessageDialog(null, "This is X'project of EXLAB Workshop Attention System(WAS).");
 		
 		int user_type_control_loop = 1;

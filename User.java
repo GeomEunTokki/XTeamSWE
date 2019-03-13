@@ -1,5 +1,3 @@
-package X_Project.A3.newname;
-
 public class User {
 	private  String Name;
 	private int ID;

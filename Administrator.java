@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 
 public class Administrator extends User{
 	
+	
 	public Administrator(String myname, int myID, int myPassword) {
 		super(myname, myID, myPassword);
 	}
@@ -17,8 +18,18 @@ public class Administrator extends User{
 		
 		int myPassword = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Password of Primary User."));
 
-		Administrator a = new Administrator(myName, myID, myPassword);
-		return a;
+		
+		boolean name = checkname(myName);
+		boolean ID = checkID(myID);
+		boolean Password = checkpassword(myPassword);
+		if(name&&ID&&Password) {
+			Administrator a = new Administrator(myName, myID, myPassword);
+			return a;
+		}
+			return null;
+
+
+	
 	}
 	
 	
@@ -30,8 +41,18 @@ public class Administrator extends User{
 		
 		int myPassword = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Password of Secondary User."));
 
-		Staff a = new Staff(myName, myID, myPassword);
-		return a;
+
+		boolean name = checkname(myName);
+		boolean ID = checkID(myID);
+		boolean Password = checkpassword(myPassword);
+		if(name&&ID&&Password) {
+			Staff a = new Staff(myName, myID, myPassword);
+			return a;
+		}
+			return null;
+
+		
+
 	}
 	
 	public Workshop add_Workshop() {

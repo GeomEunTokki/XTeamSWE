@@ -1,5 +1,3 @@
-package X_Project.A3.newname;
-
 import javax.swing.JOptionPane;
 
 public class User {

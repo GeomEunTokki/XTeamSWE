@@ -1,5 +1,3 @@
-package X_Project.A3.newname;
-
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;

@@ -1,6 +1,3 @@
-package X_Project.A3.newname;
-
-
 import javax.swing.JOptionPane;
 
 public class Administrator extends User{
@@ -17,19 +14,17 @@ public class Administrator extends User{
 		int myID = Integer.valueOf(JOptionPane.showInputDialog("Please enter the ID of Primary User."));
 		
 		int myPassword = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Password of Primary User."));
-
 		
 		boolean name = checkname(myName);
 		boolean ID = checkID(myID);
 		boolean Password = checkpassword(myPassword);
 		if(name&&ID&&Password) {
 			Administrator a = new Administrator(myName, myID, myPassword);
+			ConnectDB mongo = new ConnectDB();
+			mongo.addAdmin(myName, myID, myPassword);
 			return a;
 		}
 			return null;
-
-
-	
 	}
 	
 	
@@ -41,18 +36,16 @@ public class Administrator extends User{
 		
 		int myPassword = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Password of Secondary User."));
 
-
 		boolean name = checkname(myName);
 		boolean ID = checkID(myID);
 		boolean Password = checkpassword(myPassword);
 		if(name&&ID&&Password) {
 			Staff a = new Staff(myName, myID, myPassword);
+			ConnectDB mongo = new ConnectDB();
+			mongo.addStaff(myName, myID, myPassword);
 			return a;
 		}
 			return null;
-
-		
-
 	}
 	
 	public Workshop add_Workshop() {

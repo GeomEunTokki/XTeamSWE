@@ -1,4 +1,3 @@
-package X_Project.A3.newname;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 //import java.awt.Font;
@@ -31,6 +30,8 @@ public class ProjectA3_main extends JApplet
 	static int enterloop_counter=0;
 	
 	public static void main(String [] args) {
+
+
 		
 		//The first frame when you initial this application.
 		final JFrame frame11 = new JFrame("Workshop Attention System(WAS)");
@@ -39,7 +40,7 @@ public class ProjectA3_main extends JApplet
 		frame11.setLocationRelativeTo(null);
 		frame11.setSize(450, 300);
 		
-        JLabel label = new JLabel("This is X'project of EXLAB Workshop Attention System(WAS).",SwingConstants.CENTER);	
+        JLabel label = new JLabel("This is X'project of EXLAB Workshop Attention System(WAS).",SwingConstants.CENTER);
         label.setPreferredSize(new Dimension(120,24));
 		frame11.add(label,BorderLayout.CENTER);
 		

@@ -1,9 +1,5 @@
-package X_Project.A3.newname;
-
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

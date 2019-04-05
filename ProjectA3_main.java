@@ -1,5 +1,7 @@
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 //import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -28,11 +30,13 @@ public class ProjectA3_main extends JApplet
 	static int ws_counter=0;
 	static int who_login;
 	static int enterloop_counter=0;
-	
+	static Database mongo = new Database();
+
+
+
 	public static void main(String [] args) {
 
 
-		
 		//The first frame when you initial this application.
 		final JFrame frame11 = new JFrame("Workshop Attention System(WAS)");
 		//When you close the frame, it will not show you the error.
@@ -40,7 +44,7 @@ public class ProjectA3_main extends JApplet
 		frame11.setLocationRelativeTo(null);
 		frame11.setSize(450, 300);
 		
-        JLabel label = new JLabel("This is X'project of EXLAB Workshop Attention System(WAS).",SwingConstants.CENTER);
+        JLabel label = new JLabel("This is X'project of EXLAB Workshop Attention System(WAS).",SwingConstants.CENTER);	
         label.setPreferredSize(new Dimension(120,24));
 		frame11.add(label,BorderLayout.CENTER);
 		
@@ -52,7 +56,7 @@ public class ProjectA3_main extends JApplet
 
 		PU[0] = new Administrator("Fan", 2430436, 1234);		//The initial user account, and The Name is less than 15 char.
 		SU[0] = new Staff("Daniel", 2430322, 1234);		//The ID will be less than 7 digits, and the first digit must be bigger than 1.
-		WS[0] = new Workshop("Introduce to EXLAB:0", 00000000, 0000, "Armel");		//The password will be 4 digits, and the first digit must be bigger than 1.
+		WS[0] = new Workshop("Introduce to EXLAB", 00000000, 0000, "Armel");		//The password will be 4 digits, and the first digit must be bigger than 1.
 		WS_List[0] = WS[0].getName();
 		
 		main_interface(frame11, PU, SU, WS, WS_List);
@@ -110,15 +114,23 @@ public class ProjectA3_main extends JApplet
 		}
 	}
 
+	//To valid if the user input is same as to the one stored data.
 	public static boolean passwordcheck(User [] U,int user_counter, String verified_name, int verified_password) {
-		int i=0;
-		for(i=0; i<=user_counter; i++) {				//To match the input with the data.
-			if(U[i].getName().equals(verified_name)&&U[i].getPassword() == verified_password) {
-				who_login = i;
-				return true;
-			}
+//		int i=0;
+//		for(i=0; i<=user_counter; i++) {				//To match the input with the data.
+//			if(U[i].getName().equals(verified_name)&&U[i].getPassword() == verified_password) {
+//				who_login = i;
+//				return true;
+//			}
+//		}
+		//return false;
+		String password = Integer.toString(verified_password);
+		Database mongo = new Database();
+		if(mongo.AdminLogin(verified_name,password) || mongo.StaffLogin(verified_name,password)){
+			return true;
+		}else{
+			return false;
 		}
-		return false;
 	}
 
 	public static void main_interface(final JFrame frame11,final Administrator[] PU, final Staff[] SU, final Workshop[] WS, final String[]WS_List) {
@@ -165,6 +177,7 @@ public class ProjectA3_main extends JApplet
 		Ad.setVisible(true);
 		
 		final JLabel WA = new JLabel("Welcome Administrator.",SwingConstants.CENTER);
+		WA.setFont(new Font("",1,30));
 		WA.setPreferredSize(new Dimension(240, 48));
 
 		Ad.add(WA,BorderLayout.CENTER);
@@ -238,6 +251,7 @@ public class ProjectA3_main extends JApplet
 		St.setVisible(true);
 		
 		JLabel WSt = new JLabel("Welcome Staff.",SwingConstants.CENTER);
+		WSt.setFont(new Font("",1,30));
 		WSt.setPreferredSize(new Dimension(120,24));
 		St.add(WSt,BorderLayout.CENTER);
 		
@@ -308,7 +322,7 @@ public class ProjectA3_main extends JApplet
 		Ad_option.setSize(600, 400);
 
 		
-		JButton [] Ad_opt = new JButton[4];
+		JButton [] Ad_opt = new JButton[5];
 		Ad_opt[0] = new JButton("Add Administrator");
 		Ad_opt[0].setPreferredSize(new Dimension(90,24));
 		Ad_opt[0].addActionListener(new ActionListener() {
@@ -318,6 +332,7 @@ public class ProjectA3_main extends JApplet
 				pu_counter=pu_counter%3;
 			}
 		});
+		
 		Ad_opt[1] = new JButton("Add Staff");
 		Ad_opt[1].setPreferredSize(new Dimension(90,24));
 		Ad_opt[1].addActionListener(new ActionListener() {
@@ -327,19 +342,33 @@ public class ProjectA3_main extends JApplet
 				su_counter=su_counter%10;
 			}
 		});
+		
 		Ad_opt[2] = new JButton("Add Workshop");
 		Ad_opt[2].setPreferredSize(new Dimension(90,24));
 		Ad_opt[2].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				WS[ws_counter+1] = PU[who_login].add_Workshop();
+				mongo.getWorkshops(WS_List);
+				PU[who_login].add_Workshop(frame11, PU, SU, WS, WS_List);
+				ws_counter++;
 				WS_List[ws_counter+1] = WS[ws_counter+1].getName();
 				ws_counter++;
 				ws_counter=ws_counter%10;
 			}
 		});
-		Ad_opt[3] = new JButton("Previous page");
+		
+		Ad_opt[3] = new JButton("Remove Workshop");
 		Ad_opt[3].setPreferredSize(new Dimension(120,24));
 		Ad_opt[3].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mongo.getWorkshops(WS_List);
+				Ad_option.setVisible(!true);
+				PU[who_login].remove_Workshop(frame11, PU, SU, WS, WS_List);
+			}
+		});
+		
+		Ad_opt[4] = new JButton("Previous page");
+		Ad_opt[4].setPreferredSize(new Dimension(120,24));
+		Ad_opt[4].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Ad_option.setVisible(!true);
 				before_login_to_PU(frame11, PU, SU, WS, WS_List);
@@ -347,7 +376,7 @@ public class ProjectA3_main extends JApplet
 		});
 		
 		Ad_option.setLayout(new GridLayout(2,2));
-		Ad_option.add(Ad_opt[0]);Ad_option.add(Ad_opt[1]);Ad_option.add(Ad_opt[2]);Ad_option.add(Ad_opt[3]);
+		Ad_option.add(Ad_opt[0]);Ad_option.add(Ad_opt[1]);Ad_option.add(Ad_opt[2]);Ad_option.add(Ad_opt[3]);Ad_option.add(Ad_opt[4]);
 			
 		Ad_option.setVisible(true);
 		
@@ -359,37 +388,19 @@ public class ProjectA3_main extends JApplet
 		St_option.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		St_option.setLocationRelativeTo(null);
 		St_option.setSize(600, 400);
-		JButton [] St_opt = new JButton[3];
+		JButton [] St_opt = new JButton[2];
 		
-		St_opt[0] = new JButton("Show Workshop");
+		St_opt[0] = new JButton("Show and Select a Workshop");
 		St_opt[0].setPreferredSize(new Dimension(90,24));
 		St_opt[0].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SU[who_login].show_Workshop(WS_List);
+				SU[who_login].show_Workshop(frame11, PU, SU, WS, WS_List);
 			}
 		});
 		
-		St_opt[1] = new JButton("Select_WS_and_Swipe ID");
-		St_opt[1].setPreferredSize(new Dimension(90,24));
+		St_opt[1] = new JButton("Previous page");
+		St_opt[1].setPreferredSize(new Dimension(120,24));
 		St_opt[1].addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				boolean inputcheck=false;
-				while(!inputcheck) {
-					int choose = Integer.valueOf(JOptionPane.showInputDialog("Please enter which workshop you want.(An number: 0)"));
-					String Student_name = JOptionPane.showInputDialog("Please input the name of student.");
-					int ID = Integer.valueOf(JOptionPane.showInputDialog("Please enter student ID."));
-					
-					if(checkname(Student_name)&&checkID(ID)) {
-						SU[who_login].select_WS_and_Swipe(WS[choose],Student_name,ID);
-						inputcheck=true;
-					}
-				}
-			}
-		});
-		
-		St_opt[2] = new JButton("Previous page");
-		St_opt[2].setPreferredSize(new Dimension(120,24));
-		St_opt[2].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				St_option.setVisible(!true);
 				before_login_to_SU(frame11, PU, SU, WS, WS_List);
@@ -397,7 +408,7 @@ public class ProjectA3_main extends JApplet
 		});
 		
 		St_option.setLayout(new GridLayout(1,3));
-		St_option.add(St_opt[0]);St_option.add(St_opt[1]);St_option.add(St_opt[2]);
+		St_option.add(St_opt[0]);St_option.add(St_opt[1]);
 		
 		St_option.setVisible(true);
 		

@@ -1,8 +1,10 @@
+
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
 class Workshop {
+	static 		int counter = 0;
 	
 	private String Name;
 	private int Time;
@@ -49,7 +51,7 @@ class Workshop {
 		return Instructor;
 	}
 	public void chick_in(String Name, int ID) {
-		int counter = 0;
+
 		if(counter>10) {
 			JOptionPane.showMessageDialog(null,"This workshop is full.");
 		}

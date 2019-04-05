@@ -1,25 +1,45 @@
+import javax.print.Doc;
 import javax.swing.JOptionPane;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import jdk.nashorn.internal.objects.Global;
-import org.bson.Document;
-import org.bson.Document;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.FindIterable;
+
 import com.mongodb.client.MongoCursor;
 import com.mongodb.BasicDBObject;
+
+
 import com.mongodb.DB;
+import com.mongodb.DBCursor;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
-import com.mongodb.DBCursor;
+
 import org.bson.Document;
 
+import java.util.List;
+import java.util.Arrays;
+
+import java.util.ArrayList;
+import java.lang.String;
+import com.mongodb.client.model.Sorts;
+import org.bson.conversions.Bson;
+
+import java.lang.reflect.Array;
+
 public class testing {
+
     public static void main(String [] args){
 
-        AdminLogin("Fan", "1234");
-        getWorkshops();
+        //AdminLogin("Fan", "1234");
+        //addWorkshop("testing", "Diddy", "5 pm", "1/10");
+        //enrollStudent(5, "Todd");
+        //System.out.println(getWorkshops());
+        verifyStudent("1234");
+
+
 //        String uri = "mongodb://dortega3:MongoPassword@cluster1-shard-00-00-12jru.mongodb.net:27017," +
 //                "cluster1-shard-00-01-12jru.mongodb.net:27017,cluster1-shard-00-02-12jru.mongodb" +
 //                ".net:27017/test?ssl=true&replicaSet=Cluster1-shard-0&authSource=admin&retryWrites=true";
@@ -84,7 +104,7 @@ public class testing {
 
     }
 
-    public static void getWorkshops(){
+    public static ArrayList<String> getWorkshops(){
         MongoClientURI uri = new MongoClientURI(
                 "mongodb://dortega3:MongoPassword@cluster1-shard-00-00-12jru.mongodb.net:27017," +
                         "cluster1-shard-00-01-12jru.mongodb.net:27017,cluster1-shard-00-02-12jru.mongodb" +
@@ -93,15 +113,112 @@ public class testing {
         MongoDatabase db = mongoClient.getDatabase("ExLab");
         MongoCollection collection = db.getCollection("Workshop");
 
+        ArrayList<String> workshopArray = new ArrayList<String>();
         FindIterable<Document> documents = collection.find();
         MongoCursor<Document> cursor = documents.iterator();
 
         while(cursor.hasNext()) {
             Document document = cursor.next();
             String Name = (String) document.get("Name");
-            System.out.printf("%s\t%s\t%s\n",document.get("Name"), document.get("Instructor"), document.get("Time"));
-            System.out.println(Name);
+            workshopArray.add(Name);
+            //System.out.printf("%s\t%s\t%s\n",document.get("Name"), document.get("Instructor"), document.get("Time"));
+            //System.out.println(Name);
         }
+        //System.out.println(workshopArray);
+        return workshopArray;
 
+    }
+
+    public static void addWorkshop(String name, String instructor, String time, String date){
+        MongoClientURI uri = new MongoClientURI(
+                "mongodb://dortega3:MongoPassword@cluster1-shard-00-00-12jru.mongodb.net:27017," +
+                        "cluster1-shard-00-01-12jru.mongodb.net:27017,cluster1-shard-00-02-12jru.mongodb" +
+                        ".net:27017/test?ssl=true&replicaSet=Cluster1-shard-0&authSource=admin&retryWrites=true");
+        MongoClient mongoClient = new MongoClient(uri);
+        MongoDatabase db = mongoClient.getDatabase("ExLab");
+        MongoCollection<Document> collection = db.getCollection("Workshop");
+        System.out.println("connected...");
+
+        //String array[] = new String[0];
+        List<String> array = Arrays.asList();
+
+
+        Document document = new Document("Name", name);
+        document.append("Instructor",instructor);
+        document.append("Time",time);
+        document.append("Date",date);
+        document.append("Enrolled",array);
+
+        Integer maxID = 0;
+
+        BasicDBObject searchQuery = new BasicDBObject();
+        searchQuery.put("ID",new BasicDBObject("$gt", 0));
+
+        MongoCursor<Document> cursor = collection.find(searchQuery).sort(new BasicDBObject("ID",-1)).limit(1).iterator();
+
+        while (cursor.hasNext()) {
+            Document max = cursor.next();
+            maxID = (Integer) max.get("ID");
+            System.out.println(maxID.getClass());
+        }
+        maxID += 1;
+        System.out.println(maxID);
+        document.append("ID",maxID);
+        collection.insertOne(document);
+
+
+    }
+
+    //add student name to array of names in Enrolled attribute
+    public static void enrollStudent(String workshopName, String studentName){
+        MongoClientURI uri = new MongoClientURI(
+                "mongodb://dortega3:MongoPassword@cluster1-shard-00-00-12jru.mongodb.net:27017," +
+                        "cluster1-shard-00-01-12jru.mongodb.net:27017,cluster1-shard-00-02-12jru.mongodb" +
+                        ".net:27017/test?ssl=true&replicaSet=Cluster1-shard-0&authSource=admin&retryWrites=true");
+        MongoClient mongoClient = new MongoClient(uri);
+        MongoDatabase db = mongoClient.getDatabase("ExLab");
+        MongoCollection collection = db.getCollection("Workshop");
+        System.out.println("connected...");
+
+        Document found = (Document) collection.find(new Document("Name", workshopName)).first();
+        Bson updatedValue = new Document("Enrolled", studentName);
+        Bson updateoperation = new Document("$push", updatedValue);
+        collection.updateOne(found, updateoperation);
+    }
+
+    public void addStudent(String Name, String ID){
+        MongoClientURI uri = new MongoClientURI(
+                "mongodb://dortega3:MongoPassword@cluster1-shard-00-00-12jru.mongodb.net:27017," +
+                        "cluster1-shard-00-01-12jru.mongodb.net:27017,cluster1-shard-00-02-12jru.mongodb" +
+                        ".net:27017/test?ssl=true&replicaSet=Cluster1-shard-0&authSource=admin&retryWrites=true");
+        MongoClient mongoClient = new MongoClient(uri);
+        MongoDatabase db = mongoClient.getDatabase("ExLab");
+        MongoCollection collection = db.getCollection("Student");
+
+        Document document = new Document();
+        document.append("Name", Name);
+        document.append("ID", ID);
+
+        collection.insertOne(document);
+        JOptionPane.showMessageDialog(null,"Added "+Name+" to database successful!");
+    }
+
+    public static void verifyStudent(String ID){
+        MongoClientURI uri = new MongoClientURI(
+                "mongodb://dortega3:MongoPassword@cluster1-shard-00-00-12jru.mongodb.net:27017," +
+                        "cluster1-shard-00-01-12jru.mongodb.net:27017,cluster1-shard-00-02-12jru.mongodb" +
+                        ".net:27017/test?ssl=true&replicaSet=Cluster1-shard-0&authSource=admin&retryWrites=true");
+        MongoClient mongoClient = new MongoClient(uri);
+        DB db = mongoClient.getDB("ExLab");
+        DBCollection collection = db.getCollection("Student");
+
+        DBObject query = new BasicDBObject("ID", ID);
+        DBObject studentID = collection.findOne(query);
+
+        if(studentID == null){
+            System.out.println("student doesn't exist in database yet! (enroll)");
+        }else{
+            System.out.println("student is in database");
+        }
     }
 }

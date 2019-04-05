@@ -1,6 +1,17 @@
+
+
+
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Administrator extends User{
+
+	static Database mongo = new Database();
 	
 	
 	public Administrator(String myname, int myID, int myPassword) {
@@ -20,7 +31,8 @@ public class Administrator extends User{
 		boolean Password = checkpassword(myPassword);
 		if(name&&ID&&Password) {
 			Administrator a = new Administrator(myName, myID, myPassword);
-			ConnectDB mongo = new ConnectDB();
+
+			Database mongo = new Database();
 			mongo.addAdmin(myName, myID, myPassword);
 			return a;
 		}
@@ -41,37 +53,373 @@ public class Administrator extends User{
 		boolean Password = checkpassword(myPassword);
 		if(name&&ID&&Password) {
 			Staff a = new Staff(myName, myID, myPassword);
-			ConnectDB mongo = new ConnectDB();
+
+			Database mongo = new Database();
 			mongo.addStaff(myName, myID, myPassword);
 			return a;
 		}
 			return null;
 	}
 	
-	public Workshop add_Workshop() {
-
-		String myName = JOptionPane.showInputDialog("Please enter the name of Workshop User.");
+	public void add_Workshop(final JFrame frame11, final Administrator[] PU, final Staff[] SU, final Workshop[] WS, final String[]WS_List)  {
 		
-		int myTime = Integer.valueOf(JOptionPane.showInputDialog("Please enter the time of Workshop."));
+		final JFrame show_WS = new JFrame("Work Shop List");
+		show_WS.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		show_WS.setLocationRelativeTo(null);
+		show_WS.setSize(900, 600);
+		JButton [] List = new JButton[10];
+		JButton previous = new JButton("Previous page");
 		
-		int myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop.(Four digitals, month first.)"));
-		
-		boolean datecheck = false;
-		while(!datecheck) {
-			datecheck = checkdate(myDate);
-			if (datecheck==false) {
-				myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop again.(Four digitals, month first.)"));
-			}
+		show_WS.setLayout(new GridLayout(2,5));
+		for(int i=0; i<10; i++) {
+			List[i] = new JButton(WS_List[i]);
+			show_WS.add(List[i]);
 		}
+		show_WS.add(previous);
 		
-		String myInstructor = JOptionPane.showInputDialog("Please enter the instructor of Workshop.");
+		List[1].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String myName = JOptionPane.showInputDialog("Please enter the name of Workshop User.");
+				int myTime = Integer.valueOf(JOptionPane.showInputDialog("Please enter the time of Workshop."));
+				int myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop.(Four digitals, month first.)"));
+				boolean datecheck = false;
+				while(!datecheck) {
+					datecheck = checkdate(myDate);
+					if (datecheck==false) {
+						myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop again.(Four digitals, month first.)"));
+					}
+				}
+				String myInstructor = JOptionPane.showInputDialog("Please enter the instructor of Workshop.");
+				Workshop a = new Workshop(myName, myTime, myDate, myInstructor);
+				WS[1] = a;
+				WS_List[1] = WS[1].getName();
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				JOptionPane.showMessageDialog(null, "The workshop is added successfully.");
+			}
+		});
 		
-		Workshop a = new Workshop(myName, myTime, myDate, myInstructor);
-	    return a;
+		List[2].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String myName = JOptionPane.showInputDialog("Please enter the name of Workshop User.");
+				int myTime = Integer.valueOf(JOptionPane.showInputDialog("Please enter the time of Workshop."));
+				int myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop.(Four digitals, month first.)"));
+				boolean datecheck = false;
+				while(!datecheck) {
+					datecheck = checkdate(myDate);
+					if (datecheck==false) {
+						myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop again.(Four digitals, month first.)"));
+					}
+				}
+				String myInstructor = JOptionPane.showInputDialog("Please enter the instructor of Workshop.");
+				Workshop a = new Workshop(myName, myTime, myDate, myInstructor);
+				WS[2] = a;
+				WS_List[2] = WS[2].getName();
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				JOptionPane.showMessageDialog(null, "The workshop is added successfully.");
+			}
+		});
+		
+		List[3].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String myName = JOptionPane.showInputDialog("Please enter the name of Workshop User.");
+				int myTime = Integer.valueOf(JOptionPane.showInputDialog("Please enter the time of Workshop."));
+				int myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop.(Four digitals, month first.)"));
+				boolean datecheck = false;
+				while(!datecheck) {
+					datecheck = checkdate(myDate);
+					if (datecheck==false) {
+						myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop again.(Four digitals, month first.)"));
+					}
+				}
+				String myInstructor = JOptionPane.showInputDialog("Please enter the instructor of Workshop.");
+				Workshop a = new Workshop(myName, myTime, myDate, myInstructor);
+				WS[3] = a;
+				WS_List[3] = WS[3].getName();
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				JOptionPane.showMessageDialog(null, "The workshop is added successfully.");
+			}
+		});
+		
+		List[4].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String myName = JOptionPane.showInputDialog("Please enter the name of Workshop User.");
+				int myTime = Integer.valueOf(JOptionPane.showInputDialog("Please enter the time of Workshop."));
+				int myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop.(Four digitals, month first.)"));
+				boolean datecheck = false;
+				while(!datecheck) {
+					datecheck = checkdate(myDate);
+					if (datecheck==false) {
+						myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop again.(Four digitals, month first.)"));
+					}
+				}
+				String myInstructor = JOptionPane.showInputDialog("Please enter the instructor of Workshop.");
+				Workshop a = new Workshop(myName, myTime, myDate, myInstructor);
+				WS[4] = a;
+				WS_List[4] = WS[4].getName();
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				JOptionPane.showMessageDialog(null, "The workshop is added successfully.");
+			}
+		});
+		
+		List[5].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String myName = JOptionPane.showInputDialog("Please enter the name of Workshop User.");
+				int myTime = Integer.valueOf(JOptionPane.showInputDialog("Please enter the time of Workshop."));
+				int myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop.(Four digitals, month first.)"));
+				boolean datecheck = false;
+				while(!datecheck) {
+					datecheck = checkdate(myDate);
+					if (datecheck==false) {
+						myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop again.(Four digitals, month first.)"));
+					}
+				}
+				String myInstructor = JOptionPane.showInputDialog("Please enter the instructor of Workshop.");
+				Workshop a = new Workshop(myName, myTime, myDate, myInstructor);
+				WS[5] = a;
+				WS_List[5] = WS[5].getName();
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				JOptionPane.showMessageDialog(null, "The workshop is added successfully.");
+			}
+		});
+		
+		List[6].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String myName = JOptionPane.showInputDialog("Please enter the name of Workshop User.");
+				int myTime = Integer.valueOf(JOptionPane.showInputDialog("Please enter the time of Workshop."));
+				int myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop.(Four digitals, month first.)"));
+				boolean datecheck = false;
+				while(!datecheck) {
+					datecheck = checkdate(myDate);
+					if (datecheck==false) {
+						myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop again.(Four digitals, month first.)"));
+					}
+				}
+				String myInstructor = JOptionPane.showInputDialog("Please enter the instructor of Workshop.");
+				Workshop a = new Workshop(myName, myTime, myDate, myInstructor);
+				WS[6] = a;
+				WS_List[6] = WS[6].getName();
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				JOptionPane.showMessageDialog(null, "The workshop is added successfully.");
+			}
+		});
+		
+		List[7].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String myName = JOptionPane.showInputDialog("Please enter the name of Workshop User.");
+				int myTime = Integer.valueOf(JOptionPane.showInputDialog("Please enter the time of Workshop."));
+				int myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop.(Four digitals, month first.)"));
+				boolean datecheck = false;
+				while(!datecheck) {
+					datecheck = checkdate(myDate);
+					if (datecheck==false) {
+						myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop again.(Four digitals, month first.)"));
+					}
+				}
+				String myInstructor = JOptionPane.showInputDialog("Please enter the instructor of Workshop.");
+				Workshop a = new Workshop(myName, myTime, myDate, myInstructor);
+				WS[7] = a;
+				WS_List[7] = WS[7].getName();
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				JOptionPane.showMessageDialog(null, "The workshop is added successfully.");
+			}
+		});
+		
+		List[8].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String myName = JOptionPane.showInputDialog("Please enter the name of Workshop User.");
+				int myTime = Integer.valueOf(JOptionPane.showInputDialog("Please enter the time of Workshop."));
+				int myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop.(Four digitals, month first.)"));
+				boolean datecheck = false;
+				while(!datecheck) {
+					datecheck = checkdate(myDate);
+					if (datecheck==false) {
+						myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop again.(Four digitals, month first.)"));
+					}
+				}
+				String myInstructor = JOptionPane.showInputDialog("Please enter the instructor of Workshop.");
+				Workshop a = new Workshop(myName, myTime, myDate, myInstructor);
+				WS[8] = a;
+				WS_List[8] = WS[8].getName();
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				JOptionPane.showMessageDialog(null, "The workshop is added successfully.");
+			}
+		});
+		
+		List[9].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String myName = JOptionPane.showInputDialog("Please enter the name of Workshop User.");
+				int myTime = Integer.valueOf(JOptionPane.showInputDialog("Please enter the time of Workshop."));
+				int myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop.(Four digitals, month first.)"));
+				boolean datecheck = false;
+				while(!datecheck) {
+					datecheck = checkdate(myDate);
+					if (datecheck==false) {
+						myDate = Integer.valueOf(JOptionPane.showInputDialog("Please enter the Date of Workshop again.(Four digitals, month first.)"));
+					}
+				}
+				String myInstructor = JOptionPane.showInputDialog("Please enter the instructor of Workshop.");
+				Workshop a = new Workshop(myName, myTime, myDate, myInstructor);
+				WS[9] = a;
+				WS_List[9] = WS[9].getName();
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				JOptionPane.showMessageDialog(null, "The workshop is added successfully.");
+			}
+		});
+		
+		show_WS.setVisible(true);
+		
+		previous.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				show_WS.setVisible(!true);
+
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+			}
+		});
+	
 	}
 	
-	public void remove_Workshop() {
+	public void remove_Workshop(final JFrame frame11, final Administrator[] PU, final Staff[] SU, final Workshop[] WS, final String[]WS_List) {
+		final JFrame show_WS = new JFrame("Work Shop List");
+		show_WS.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		show_WS.setLocationRelativeTo(null);
+		show_WS.setSize(900, 600);
+		JButton [] List = new JButton[10];
+		JButton previous = new JButton("Previous page");
 		
+		show_WS.setLayout(new GridLayout(2,5));
+		for(int i=0; i<10; i++) {
+			List[i] = new JButton(WS_List[i]);
+			show_WS.add(List[i]);
+		}
+		show_WS.add(previous);
+		
+		List[0].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WS[0] = null;
+				//WS_List[0] = null;
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				mongo.removeWorkshop(WS_List[0]);
+				WS_List[0] = null;
+			}
+		});
+		
+		List[1].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WS[1] = null;
+				//WS_List[1] = null;
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				mongo.removeWorkshop(WS_List[1]);
+				WS_List[1] = null;
+			}
+		});
+		
+		List[2].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WS[2] = null;
+				//WS_List[2] = null;
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				mongo.removeWorkshop(WS_List[2]);
+				WS_List[2] = null;
+			}
+		});
+		
+		List[3].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WS[3] = null;
+				//WS_List[3] = null;
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				mongo.removeWorkshop(WS_List[3]);
+				WS_List[3] = null;
+			}
+		});
+		
+		List[4].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WS[4] = null;
+				//WS_List[4] = null;
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				mongo.removeWorkshop(WS_List[4]);
+				WS_List[4] = null;
+			}
+		});
+		
+		List[5].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WS[5] = null;
+				//WS_List[5] = null;
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				mongo.removeWorkshop(WS_List[5]);
+				WS_List[5] = null;
+			}
+		});
+		
+		List[6].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WS[6] = null;
+				//WS_List[6] = null;
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				mongo.removeWorkshop(WS_List[6]);
+				WS_List[6] = null;
+			}
+		});
+		
+		List[7].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WS[7] = null;
+				//WS_List[7] = null;
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				mongo.removeWorkshop(WS_List[7]);
+				WS_List[7] = null;
+			}
+		});
+		
+		List[8].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WS[8] = null;
+				//WS_List[8] = null;
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				mongo.removeWorkshop(WS_List[8]);
+				WS_List[8] = null;
+			}
+		});
+		
+		List[9].addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WS[9] = null;
+				//WS_List[9] = null;
+				show_WS.setVisible(!true);
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+				mongo.removeWorkshop(WS_List[9]);
+				WS_List[9] = null;
+			}
+		});
+		show_WS.setVisible(true);
+		
+		previous.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				show_WS.setVisible(!true);
+
+				ProjectA3_main.login_for_Admin(true, frame11, PU, SU, WS, WS_List);
+			}
+		});
 	}
 	
 	public void view_Data() {

@@ -1,5 +1,5 @@
 # XTeamSWE
-**Project Topic:**
+**[Project Topic:]**
 -This project aims to build a system that automates workshop check-in in the EXLAB.
 **Problem Statement:**
 -Currently, students credentials are manually entered when checking in for workshops. In fact, EXLAB staff has to physically type all information from the card into the system in order to complete the registration process. Our project aims to automate this process, shortening the time it takes for students to enroll.
